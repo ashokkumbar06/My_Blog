@@ -4,7 +4,6 @@ import com.Blog.Entity.Comment;
 import com.Blog.Entity.Post;
 import com.Blog.Exception.ResourceNotFoundException;
 import com.Blog.Payload.CommentDto;
-import com.Blog.Payload.PostDto;
 import com.Blog.Repositry.CommentRepository;
 import com.Blog.Repositry.PostRepository;
 import com.Blog.Service.CommentService;
@@ -17,12 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+
     private CommentRepository commentRepo;
+
     private PostRepository postRepo;
+
     private ModelMapper modleMapper;
 
-
-    public CommentServiceImpl(CommentRepository commentRepo, PostRepository postRepo,ModelMapper modleMapper) {
+    public CommentServiceImpl(CommentRepository commentRepo, PostRepository postRepo, ModelMapper modleMapper) {
         this.commentRepo = commentRepo;
         this.postRepo = postRepo;
         this.modleMapper = modleMapper;
@@ -82,10 +83,11 @@ public class CommentServiceImpl implements CommentService {
                 () -> new ResourceNotFoundException("Post not found with Id" + postid));
         Comment comment = commentRepo.findById(commentid).orElseThrow(
                 () -> new ResourceNotFoundException("Comment Not Found with Id :" + commentid));
-         commentRepo.deleteById(commentid);
-}
+        commentRepo.deleteById(commentid);
+    }
+
     private CommentDto mapToDTO(Comment comment) {
-        CommentDto commentDto = modleMapper.map(comment,CommentDto.class);
+        CommentDto commentDto = modleMapper.map(comment, CommentDto.class);
         return commentDto;
     }
     //manual Converting Entity.class to Dto.class
@@ -97,7 +99,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     private Comment mapToEntity(CommentDto commentDto) {
-       Comment comment = modleMapper.map(commentDto,Comment.class);
+        Comment comment = modleMapper.map(commentDto, Comment.class);
         return comment;
     }
     //manual Converting  Dto.class to Entity.class

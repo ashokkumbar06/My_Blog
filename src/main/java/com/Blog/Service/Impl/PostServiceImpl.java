@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,18 +19,21 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+
     private ModelMapper modleMapper;
+
     //This will create Bean
-    public PostServiceImpl(PostRepository postRepository,ModelMapper modleMapper) {
+    public PostServiceImpl(PostRepository postRepository, ModelMapper modleMapper) {
         this.postRepository = postRepository;
         this.modleMapper = modleMapper;
     }
+
     @Override
-    public PostDto  getPostBYId(long id) {//custom Exception
-    Post post = postRepository.findById(id).orElseThrow(
-            ()->new ResourceNotFoundException("POst Not Found with ID:"+id)
-    );
-    return maptoDto(post);
+    public PostDto getPostBYId(long id) {//custom Exception
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("POst Not Found with ID:" + id)
+        );
+        return maptoDto(post);
     }
 
     @Override
@@ -50,9 +54,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> listAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(sortBy).ascending()
-                :Sort.by(sortBy).descending();
-         //OR
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        //OR
         // if(sortDir.equalsIgnoreCase("asc")){
         //  sort = sort.by(sortBy).ascending();
         // }else{
@@ -60,17 +64,17 @@ public class PostServiceImpl implements PostService {
 
         // }
         // Sort sort = Sort.by(sortBy);
-        Pageable pageable = PageRequest.of(pageNo,pageSize,sort);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Post> listOfposts = postRepository.findAll(pageable);
         List<Post> posts = listOfposts.getContent();
-        List<PostDto> postdtos = posts.stream().map(x->maptoDto(x)).collect(Collectors.toList());
+        List<PostDto> postdtos = posts.stream().map(x -> maptoDto(x)).collect(Collectors.toList());
         return postdtos;
     }
 
     @Override
     public void deleteById(long id) {
         Post post = postRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("Post Not Found with ID:"+id)
+                () -> new ResourceNotFoundException("Post Not Found with ID:" + id)
         );
         postRepository.deleteById(id);
     }
@@ -78,7 +82,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto updatePost(long id, PostDto postDto) {
         Post post = postRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("Post Not Found with ID:"+id)
+                () -> new ResourceNotFoundException("Post Not Found with ID:" + id)
         );
         Post newpost = maptoEntity(postDto);
         newpost.setId(id);
@@ -88,8 +92,8 @@ public class PostServiceImpl implements PostService {
     }
 
     PostDto maptoDto(Post post) {
-       PostDto dto = modleMapper.map(post, PostDto.class);
-       return dto;
+        PostDto dto = modleMapper.map(post, PostDto.class);
+        return dto;
     }
     //manual Converting Entity.class to Dto.class
     /* PostDto dto = new PostDto();
@@ -100,8 +104,8 @@ public class PostServiceImpl implements PostService {
       return dto;*/
 
 
-    Post maptoEntity(PostDto postdto){
-        Post post = modleMapper.map(postdto,Post.class);
+    Post maptoEntity(PostDto postdto) {
+        Post post = modleMapper.map(postdto, Post.class);
         return post;
     }
     //manual Converting  Dto.class to Entity.class
@@ -111,6 +115,3 @@ public class PostServiceImpl implements PostService {
       post.setContent(postdto.getContent());
       post.setDescription(postdto.getDescription());*/
 }
-
-
-

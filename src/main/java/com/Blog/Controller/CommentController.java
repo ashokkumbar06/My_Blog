@@ -26,12 +26,14 @@ public class CommentController {
             @RequestBody CommentDto commentDto) {
         return new ResponseEntity<>(commentService.createComment(postid, commentDto), HttpStatus.CREATED);
     }
+
     //http://localhost:8080/api/posts/postid
     @GetMapping("/posts/{postid}/comments")
     public List<CommentDto> getcommentsByPost(
             @PathVariable(value = "postid") long postid) {
         return commentService.getCommnetsByPostId((postid));
     }
+
     //http://localhost:8080/api/posts/id
     @GetMapping("/posts/{postid}/comments/{commentid}")
     public ResponseEntity<CommentDto> getcomments(
@@ -44,20 +46,20 @@ public class CommentController {
     //http://localhost:8080/api/posts/id
     @PutMapping("/posts/{postid}/comments/{commentid}")
     public ResponseEntity<CommentDto> updateById(
-            @PathVariable("postid")long postid,
-            @PathVariable("commentid")long commentid,
-            @RequestBody CommentDto commentDto){
-        CommentDto Udto = commentService.updatePost(postid,commentid,commentDto);
-        return new ResponseEntity<>(Udto,HttpStatus.OK);
+            @PathVariable("postid") long postid,
+            @PathVariable("commentid") long commentid,
+            @RequestBody CommentDto commentDto) {
+        CommentDto Udto = commentService.updatePost(postid, commentid, commentDto);
+        return new ResponseEntity<>(Udto, HttpStatus.OK);
     }
+
     //http://localhost:8080/api/posts/id
     @DeleteMapping("/posts/{postid}/comments/{commentid}")
     public ResponseEntity<String> deleteBycommentId(
-            @PathVariable("postid")long postid,
-            @PathVariable("commentid")long commentid
-    ){
-       commentService.deleteBycommentId(postid,commentid);
-       return new ResponseEntity<>("Comment id Deleted",HttpStatus.OK);
+            @PathVariable("postid") long postid,
+            @PathVariable("commentid") long commentid
+    ) {
+        commentService.deleteBycommentId(postid, commentid);
+        return new ResponseEntity<>("Comment id Deleted", HttpStatus.OK);
     }
-
 }

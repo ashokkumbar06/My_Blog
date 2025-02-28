@@ -9,12 +9,14 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDto {
-        private long id;
-        @NotEmpty
-        @Size(min=2,message = "Title Should be more than 2 character's")
-        private String title;
-        private String description;
-        private String content;
+
+    private long id;
+
+    @NotEmpty
+    @Size(min = 2, message = "Title Should be more than 2 character's")
+    private String title;
+
+    private String description;
+
+    private String content;
 }
-
-

@@ -1,7 +1,6 @@
 package com.Blog.Entity;
 
 import lombok.*;
-import org.hibernate.id.insert.InsertGeneratedIdentifierDelegate;
 
 import javax.persistence.*;
 
@@ -24,13 +23,7 @@ public class Comment {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="post_id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
-    // ...
 }
-
-
-
-
-
